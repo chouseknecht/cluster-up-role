@@ -4,7 +4,7 @@
 
 Install the OpenShift client and create a local instance using `oc cluster up`. 
 
-Created to support the demo and testing needs of [Ansible Container ](https://github.com/ansible/ansible-container) by automating the tasks in the [Install and Congigure OpenShift guide](http://docs.ansible.com/ansible-container/configure_openshift.html). 
+Created to support the demo and testing needs of [Ansible Container ](https://github.com/ansible/ansible-container) by automating the tasks in the [Install and Configure OpenShift guide](http://docs.ansible.com/ansible-container/configure_openshift.html). 
 
 Specifically, it performs the following tasks:
 
