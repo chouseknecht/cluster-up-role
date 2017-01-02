@@ -1,6 +1,6 @@
-# cluster-up-role
-
 [![Build Status](https://travis-ci.org/chouseknecht/cluster-up-role.svg?branch=master)](https://travis-ci.org/chouseknecht/cluster-up-role)
+
+# cluster-up-role
 
 Install the OpenShift client and create a local instance using `oc cluster up`. 
 
@@ -33,10 +33,7 @@ If you have not added the insecure registry option to Docker, the role will erro
 ## Requirements
 
 - Docker or Docker for Mac
-- root access 
-    - required to update /etc/hosts
-    - kill leftover socat processes
-    - install the oc client to somewhere useful and already in your PATH (i.e. /usr/local/bin)
+- sudo access 
 
 ## Role Variables
 
