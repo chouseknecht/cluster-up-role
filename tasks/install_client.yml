@@ -1,38 +1,3 @@
-- name: Get the tagged release
-  uri:
-    url: "{{ openshift_github_url }}/{{ openshift_github_user }}/{{ openshift_github_name }}/releases/tags/{{ openshift_release_tag_name }}"
-  register: release
-  when: openshift_release_tag_name is defined
-
-- name: Set release
-  set_fact:
-    assets_url: "{{ release.json.assets_url }}"
-  when: openshift_release_tag_name is defined
-
-- name: Get the latest release
-  uri:
-    url: "{{ openshift_github_url }}/{{ openshift_github_user }}/{{ openshift_github_name }}/releases/latest"
-  register: release
-  when: openshift_release_tag_name is not defined
-
-- name: Set release
-  set_fact:
-    assets_url: "{{ release.json.assets_url }}"
-  when: openshift_release_tag_name is not defined
-
-- name: Should have an assets_url 
-  assert:
-    that: assets_url is defined
-
-- name: debug
-  debug:
-    var: assets_url 
-
-- name: Get the list of assets
-  uri:
-    url: "{{ assets_url }}"
-  register: assets
-
 - name: Get the Mac asset 
   include: get_mac_asset.yml
   with_items: "{{ assets.json }}"
@@ -41,7 +6,7 @@
 - name: Get the Linux asset
   include: get_linux_asset.yml
   with_items: "{{ assets.json }}"
-  when: assets is defined and ansible_os_family != 'Darwin' and ansible_os_family != 'Windows'
+  when: "assets is defined and ansible_os_family in ['RedHat', 'Debian']"
 
 - name: Should have an asset_name
   assert:

@@ -16,6 +16,9 @@
     path: "{{ openshift_client_dest }}/oc" 
   register: oc_client
 
+- name: Get the client assets 
+  include: get_client_assets.yml
+
 - name: Install the oc client
   include: install_client.yml
   when: not oc_client.stat.exists or openshift_force_client_install 
