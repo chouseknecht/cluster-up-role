@@ -115,7 +115,7 @@ $ cp ${ANSIBLE_ROLES_PATH}/chouseknecht.cluster-up-role/files/cluster-up.yml .
 $ echo "localhost">./inventory
 
 # Run the playbook
-$ ansible-container -i inventory --ask-sudo-pass cluster-up.yml
+$ ansible-playbook -i inventory --ask-sudo-pass cluster-up.yml
 ```
 
 ## License
