@@ -28,7 +28,7 @@
 
 - name: Run oc cluster up
   command: "oc cluster up {{ openshift_up_options }}"
-  register: output         
+  register: clusterupout
   ignore_errors: yes
 
 - name: Cluster up 
@@ -39,3 +39,7 @@
 
 - name: Create objects
   include: create_objects.yml 
+
+- name: Show cluster up output
+  debug:
+    var: clusterupout.stdout_lines 
