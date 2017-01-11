@@ -15,27 +15,66 @@ Specifically, it performs the following tasks:
 - Grants cluster admin to the *developer* account
 - Creates a route to expose the local registry
 - Creates a persistent volume
+- Connects the `oc` client to the cluster as the developer, and sets the project to `default` 
 
 ### Supported platforms and testing
 
 To date this role has really only been tested on OSX using Docker for Mac. And it actually almost works on Travis, which is an Ubuntu platform. So with that in mind, if you're attempting to use it not on a OSX, you're very likely to discover a bug. If you do, please, open an issue, and let us know, so that we can keep the role up to date and make adjustements. 
 
+## Prerequisites 
+
+- Docker or Docker for Mac
+- sudo access, for updating */etc/hosts*, and installing the `oc` binary to */usr/local/bin*.
+
 ### Hostname
 
-When the cluster is created, it gets associated with your local network IP address. If you're working on a laptop or other mobile device, you may find yourself having to recreate the cluster whenver you hop to a new network. To make life a little less painful a hostname gets created that points to your current IP address. You can use this hostname later, when you're ready to push images to the local registry.
+By default the hostname `local.opeshift` is added to your */etc/hosts* file, and associated with your current IP address. Use the *openshift_hostname* parameter, if you prefere a different name.
 
-Use the *openshift_hostname* parameter to set the actual name. Each time you run the playbook, the current line in /etc/hosts for the hostname will be removed and re-added with the current IP address.
+When the cluster is created, it gets associated with your local network IP address. If you're working on a laptop or other mobile device, you may find yourself having to recreate the cluster whenver you hop to a new network. Creating a hostname that's associated with your actual IP address makes life a little less painful.
 
 ### Insecure registry
 
 If you have not added the insecure registry option to Docker, the role will error the first time you execute it. It will provide a message letting you know the subnet that needs to be added. You'll also need to add the *openshift_hostname* value. By default the value is *local.openshift*. After making the change and restarting Docker, run the role again, and this time it will run all the way through.
 
-## Requirements
+## Deploying your Ansible Container project
 
-- Docker or Docker for Mac
-- sudo access 
+In the following example we'll create a new project, install the Container Enabled role [jenkins-container](https://galaxy.ansible.com/awasilyev/jenkins-container/), and deploy the Jenkins service to our local OpenShift cluster.
+
+**NOTE**: to run this example, you will need to install Ansible Container 0.3.0. See [Installing from Source](http://docs.ansible.com/ansible-container/installation.html#running-from-source), if you need assistance.
+
+```
+# Create a new project folder
+$ mkdir jenkins
+
+# Set the working directory
+$ cd jenkins
+
+# Init the project
+$ ansible-container init
+
+# Install the jenkins-container role
+$ ansible-container install awasilyev.jenkins-container
+
+# Build the images
+$ ansible-container build
+
+# Generate the deployment playbook and role
+$ ansible-container shipit openshift --local-images
+
+# Set the working directory to ansible
+$ cd ansible
+
+# Run the shipit playbook
+$ ansible-playbook shipit-openshift.yml
+```
+
+To view the project, use a browser to log into the OpenShift console at `https://local.openshift:8443/console`. The username is `developer`, and the password is `developer`. If you followed the example above, you will see a `jenkins` project. Click on `jenkins` to open the project overview.
+
+Click the following image to watch a video of the Jenkins service deployment:
 
 ## Role Variables
+
+Use the following variables to modify the role's behavior:
 
 openshift_github_user: openshift
 > The owner of the GitHub repo where oc client download targets can be found
