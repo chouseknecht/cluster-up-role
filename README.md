@@ -68,7 +68,7 @@ $ cd ansible
 $ ansible-playbook shipit-openshift.yml
 ```
 
-To view the project, use a browser to log into the OpenShift console at `https://local.openshift:8443/console`. The username is `developer`, and the password is `developer`. If you followed the example above, you will see a `jenkins` project. Click on `jenkins` to open the project overview.
+The above created a new project on OpenShift called `jenkins`. To veiw the project, log into the OpenShift console by opening [https://local.openshift:8443/console](https://local.openshift:8443/console). The username is `developer`, and the password is `developer`. Click on `jenkins` to view the project overview.
 
 Click the following image to watch a video of the Jenkins service deployment:
 
@@ -111,17 +111,11 @@ openshift_recreate: no
 openshift_up_options: ''
 > Add any options you want to pass to `oc cluster up`. Separate multiple options with a space, just as you would on the command line.
 
-## Dependencies
-
-None
-
 ## Example Playbook
 
-When you run the role, be sure to leave gather_facts set to a truthy value. Without facts, the role cannot determine your default IP address or OS family. 
+When you run the role, be sure to leave gather_facts set to a truthy value. Without facts, the role cannot determine the host's IP address, nor the OS family. 
 
-Below is a sample playbook that includes all of the default parameters. You'll find this exact example in the *files* folder, called *cluster-up.yml*. Copy, and adjust it to fit your environment.
-
-When you run the playbook, be sure to pass the ``--ask-sudo-pass`` option.
+Below is a sample playbook that includes all of the default parameters. You'll find this exact example in [files/cluster-up.yml](./files/cluster-up.yml). Copy, and adjust it to fit your environment.
 
 ```
     ---
@@ -158,6 +152,10 @@ $ echo "localhost">./inventory
 # Run the playbook
 $ ansible-container -i inventory --ask-sudo-pass cluster-up.yml
 ```
+
+## Dependencies
+
+None
 
 ## License
 
