@@ -72,6 +72,8 @@ To view the project, use a browser to log into the OpenShift console at `https:/
 
 Click the following image to watch a video of the Jenkins service deployment:
 
+[![Deploy Jenkins](https://github.com/chouseknecht/cluster-up-role/blob/images/images/deploy_jenkins.png)](https://www.youtube.com/watch?v=FQY8hQ-cB1c)
+
 ## Role Variables
 
 Use the following variables to modify the role's behavior:
