@@ -21,15 +21,6 @@ Specifically, it performs the following tasks:
 
 To date this role has really only been tested on OSX using Docker for Mac. And it actually almost works on Travis, which is an Ubuntu platform. So with that in mind, if you're attempting to use it outside of OSX, you're very likely to discover a bug. If you do, please, open an issue or submit a PR, so that we can keep the role up to date. 
 
-## Prerequisites 
-
-You'll need to have the following installed:
-
-- Docker Engine or Docker for Mac
-- sudo access, for updating */etc/hosts*, and installing the `oc` binary to */usr/local/bin*.
-
-**NOTE**: If you're on a Linux platform, be sure to follow the [create a docker group](https://docs.docker.com/engine/installation/linux/centos/#/create-a-docker-group) instructions, so that you're able to run `docker` commands directly without using *sudo*. 
-
 ### Hostname
 
 By default the hostname `local.opeshift` is added to your */etc/hosts* file, and associated with your current IP address. Use the *openshift_hostname* parameter, if you prefere a different name.
@@ -39,6 +30,16 @@ When the cluster is created, it gets associated with your local network IP addre
 ### Insecure registry
 
 If you have not added the insecure registry option to Docker, the role will error the first time you execute it. It will provide a message letting you know the subnet that needs to be added. You'll also need to add the *openshift_hostname* value. By default the value is *local.openshift*. After making the change and restarting Docker, run the role again, and this time it will run all the way through.
+
+## Prerequisites 
+
+You'll need to have the following installed:
+
+- Docker Engine or Docker for Mac
+- sudo access, for updating */etc/hosts*, and installing the `oc` binary to */usr/local/bin*.
+
+**NOTE**: If you're on a Linux platform, be sure to follow the [create a docker group](https://docs.docker.com/engine/installation/linux/centos/#/create-a-docker-group) instructions, so that you're able to run `docker` commands directly without using *sudo*. 
+
 
 ## Example Playbook
 
