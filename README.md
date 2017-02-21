@@ -58,13 +58,13 @@ Below is a sample playbook that includes all of the default parameters. You'll f
           openshift_github_user: openshift
           openshift_github_name: origin
           openshift_github_url: https://api.github.com/repos
-          openshift_release_tag_name: "v1.3.1"
+          openshift_release_tag_name: ""
           openshift_client_dest: /usr/local/bin  
-          openshift_force_client_install: no
+          openshift_force_client_install: yes
           openshift_volume_name: project-data
           openshift_volume_path: "{{ lookup('env','HOME') }}/volumes/project/data"
           openshift_hostname: local.openshift
-          openshift_recreate: no
+          openshift_recreate: yes
 ```
 
 After you install the role, copy *file/cluster-up.yml* to your project directory, and execute it with the `--ask-sudo-pass` option. Here's an example of what that might look like:
@@ -134,13 +134,13 @@ openshift_github_name: origin
 openshift_github_url: https://api.github.com/repos
 > The GitHub API endpoint to use.
 
-openshift_release_tag_name: "v1.3.1"
-> The tag for the desired relase of the `oc` binary. If none provided, the latest release will be installed.
+openshift_release_tag_name: ""
+> The tag for the desired relase of the `oc` binary. If not provided, the latest release will be installed.
 
 openshift_client_dest: /usr/local/bin  
 > The directory where `oc` will be installed. Needs to be something in your PATH.
 
-openshift_force_client_install: no
+openshift_force_client_install: yes
 > If the `oc` binary already exists, should it be overwritten?
 
 openshift_volume_name: project-data
@@ -152,7 +152,7 @@ openshift_volume_path: "{{ lookup('env','HOME') }}/volumes/project/data"
 openshift_hostname: local.openshift
 > The hostname you'll use to reference the local registry when you're ready to push images.
 
-openshift_recreate: no
+openshift_recreate: yes
 > If a cluster is already running, should it be killed and recreated? 
 
 openshift_up_options: ''
