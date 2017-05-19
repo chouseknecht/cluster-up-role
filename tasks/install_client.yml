@@ -41,7 +41,7 @@
 
 - name: Check if 'oc' exists
   stat:
-    path: :{{ temp_output.stdout }}/oc"
+    path: "{{ temp_output.stdout }}/oc"
   register: oc
 
 - name: Copy 'oc' to the requested directory 
