@@ -16,6 +16,12 @@
   command: mktemp -d -t ansible.XXXXXXXXXX
   register: temp_output
 
+- name: Show temp dir
+  debug: msg="Temp dir - {{ temp_output.stdout }}"
+
+- name: Show the asset name
+  debug: msg="Asset name = {{ asset_name }}"
+
 - name: Download the asset
   get_url:
     url: "{{ asset_url }}"
@@ -33,16 +39,27 @@
     chdir: "{{ temp_output.stdout }}"
   when: "'tar.gz' in asset_name"
 
+- name: Check if 'oc' exists
+  stat:
+    path: :{{ temp_output.stdout }}/oc"
+  register: oc
+
+- name: Copy 'oc' to the requested directory 
+  copy:
+    src: "{{ temp_output.stdout }}/oc" 
+    dest: "{{ openshift_client_dest }}/oc"  
+    mode: 0775 
+  become: yes
+  become_user: root 
+  when: oc.stat.exists
+
 - set_fact: 
     archive_path: "{{ asset_name | regex_replace('\\.(tar\\.gz|\\zip)', '') }}/" 
-  when: "'tar.gz' in asset_name"
+  when: "not oc.stat.exists and 'tar.gz' in asset_name"
 
 - set_fact: 
     archive_path: "" 
-  when: "'zip' in asset_name"
-
-- debug: 
-    msg: "Looking for binary - {{ temp_output.stdout }}/{{ archive_path }}oc"
+  when: "not oc.stat.exists and 'zip' in asset_name"
 
 - name: Move the oc executable to the requested directory 
   copy:
@@ -51,6 +68,7 @@
     mode: 0775 
   become: yes
   become_user: root 
+  when: not oc.stat.exists
 
 - name: Remove the temp directory
   file:

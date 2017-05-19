@@ -7,6 +7,7 @@
   homebrew:
     name: socat
   when: ansible_os_family == 'Darwin'
+  become: no
 
 - name: Add hostname
   include: add_hostname.yml 
@@ -22,7 +23,7 @@
 - name: Install the oc client
   include: install_client.yml
   when: not oc_client.stat.exists or openshift_force_client_install 
-
+  
 - name: Check if running
   include: isrunning.yml 
 
